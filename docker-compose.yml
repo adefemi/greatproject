@@ -9,5 +9,5 @@ services:
     volumes:
       - .:/greatproject
     ports:
-      - "9001:9001"
+      - "2086:8000"
 
