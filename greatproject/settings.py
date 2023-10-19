@@ -74,9 +74,17 @@ INSTALLED_APPS = [
 	'corsheaders',
 	'rest_framework',
 	'main',
+    'cloudinary_storage',
+	'cloudinary',
 ]
 
 WSGI_APPLICATION = 'greatproject.wsgi.application'
+
+CLOUDINARY_STORAGE = {
+	'API_KEY': config('API_KEY'),
+	'API_SECRET': config('API_SECRET'),
+	'CLOUD_NAME': config('CLOUD_NAME'),
+}
 
 CORS_ALLOW_HEADERS = [
 	'x-requested-with',
@@ -98,6 +106,8 @@ CORS_ALLOW_METHODS = [
 	'DELETE',
 	'OPTIONS',
 ]
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 CORS_ORIGIN_ALLOW_ALL = True
 

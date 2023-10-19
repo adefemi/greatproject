@@ -8,6 +8,7 @@ class ProjectModel(models.Model):
 	prizes = models.TextField()
 	deadline = models.DateTimeField()
 	isactive = models.BooleanField(default='false')
+	cover = models.ImageField(null=True, upload_to='project_hub')
 	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
 
