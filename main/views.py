@@ -5,6 +5,7 @@ from .serializers import (ProjectSerializer, SubmissionSerializer)
 import pytz
 from datetime import datetime
 from rest_framework.response import Response
+from rest_framework import status
 
 
 class ProjectCreateUpdateView(ModelViewSet):
@@ -47,6 +48,10 @@ class SubmissionView(ModelViewSet):
 		# check that the deadline is not passed
 		if project_deadline_aware < utc_now:
 			return Response({'message': 'Project deadline is passed'}, status=status.HTTP_400_BAD_REQUEST)
+
+		# check that the email is not already used for this project
+		if SubmissionModel.objects.filter(project_id=serializer.validated_data['project_id'], email=serializer.validated_data['email']).exists():
+			return Response({'message': 'Email already submitted for this project'}, status=status.HTTP_400_BAD_REQUEST)
 
 		self.perform_create(serializer)
 		headers = self.get_success_headers(serializer.data)
