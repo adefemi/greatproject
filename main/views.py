@@ -2,7 +2,7 @@ from rest_framework.viewsets import ModelViewSet
 from greatproject.utils import (Helper, get_query)
 from .models import (ProjectModel, SubmissionModel)
 from .serializers import (ProjectSerializer, SubmissionSerializer)
-from django.db.models import (Count, Q)
+import pytz
 from datetime import datetime
 
 
@@ -41,8 +41,10 @@ class SubmissionView(ModelViewSet):
 		if not project.isactive:
 			return Response({'message': 'Project is not active'}, status=status.HTTP_400_BAD_REQUEST)
 		
+		utc_now = datetime.now(pytz.utc)
+		project_deadline_aware = project.deadline.replace(tzinfo=pytz.utc)
 		# check that the deadline is not passed
-		if project.deadline < datetime.now():
+		if project_deadline_aware < utc_now:
 			return Response({'message': 'Project deadline is passed'}, status=status.HTTP_400_BAD_REQUEST)
 
 		self.perform_create(serializer)
