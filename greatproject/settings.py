@@ -3,7 +3,7 @@ from decouple import config
 
 
 
-DEBUG = True
+DEBUG = False
 
 USE_TZ = True
 
